@@ -11,11 +11,20 @@ let finish = squares.findIndex((el) => el.classList.contains('finish'));
 let currentSquare = 0;
 let rowMin = 4;
 
+let startTime;
+let isRunning = false;
+let finishTime;
 
 window.addEventListener('keydown', (e) => {
 
+    if(!isRunning){
+        startTime = Date.now();
+        isRunning = true;
+    }
+
     let row = Math.floor(currentSquare / 5);
     let col = currentSquare % 5;
+
 
     if (e.key === 'ArrowUp') {
         if(row <= 0) {
@@ -80,11 +89,13 @@ function checkFinish(){
         squares[finish].appendChild(img);
         setTimeout(() => onFinish(), 100);
     }
+    finishTime = Date.now();
 }
 
 
 function onFinish(){
     reset("You are the Winner");
+    showTime();
     randomWall();
 }
 
@@ -96,3 +107,11 @@ function randomWall() {
     results[randomIndex].classList.add('wall'); 
 }
 
+
+function showTime(){
+
+    let timeDone = (finishTime - startTime) / 1000;
+    console.log(timeDone);
+    alert("your time: " + timeDone);
+    isRunning = false;
+}
